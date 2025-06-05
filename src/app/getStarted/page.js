@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
-import MenuPreview from "../components/MenuPreview";
+import Navbar from "../components/Navbar/page";
+import MenuPreview from "../components/MenuPreview/page";
 import CountryLanguageSelect from "../countryLanguage/page";
 import BusinessSetup from "../Select_Business/page";
 import BusinessSearch from "../BusinessLocation/page";

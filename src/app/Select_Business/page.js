@@ -1,4 +1,3 @@
-"use client";
 import { addBusiness } from "../utils/api";
 import { bannerImages } from "../utils/constants";
 

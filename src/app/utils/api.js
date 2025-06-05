@@ -1,8 +1,6 @@
-import { BASE_URI as SERVER_URL } from "./constants";
-
 const { default: axios } = require("axios");
 
-const BASE_URI = `${SERVER_URL}/api/v1`;
+const BASE_URI = "http://qcrims.raybitprojects.com/api/v1";
 
 const api = axios.create({
   baseURL: BASE_URI,
@@ -40,6 +38,41 @@ export const getCategories = async (id) => {
     },
   });
 };
+export const addNewCategory = async (data) => {
+  const token = localStorage.getItem("token");
+
+  return await api.post(`${BASE_URI}/categories`, data, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const updateCategory = async (categoryId, data) => {
+  return await axios.patch(`${BASE_URI}/categories/${categoryId}`, data);
+};
+
+export const addNewProduct = async (data) => {
+  const token = localStorage.getItem("token");
+
+  return await api.post(`${BASE_URI}/items`, data, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteCategory = async (id) => {
+  const token = localStorage.getItem("token");
+
+  return await api.delete(`${BASE_URI}/categories/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
 
 export const getMyQr = async () => {
   const token = localStorage.getItem("token");
@@ -51,9 +84,35 @@ export const getMyQr = async () => {
   });
 };
 
+export const getProducts = async (id) => {
+  const token = localStorage.getItem("token");
+  return await api.get(`${BASE_URI}/items/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 export const getPublished = async (id) => {
   const token = localStorage.getItem("token");
   return await api.get(`${BASE_URI}/businesses/publish/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const updateItem = (itemId, updatedData) => {
+  return axios.patch(`${BASE_URI}/items/${itemId}`, updatedData);
+};
+
+export const deleteItemById = (itemId) => {
+  return axios.delete(`${BASE_URI}/items/${itemId}`);
+};
+
+export const getMyBusiness = () => {
+  const token = localStorage.getItem("token");
+  return axios.get(`${BASE_URI}/businesses/myBuisnesses`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
