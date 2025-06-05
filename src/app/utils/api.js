@@ -1,6 +1,6 @@
 const { default: axios } = require("axios");
 
-const BASE_URI = "http://qcrims.raybitprojects.com/api/v1";
+const BASE_URI = "https://qcrims.raybitprojects.com/api/v1";
 
 const api = axios.create({
   baseURL: BASE_URI,

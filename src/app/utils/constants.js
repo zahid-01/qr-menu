@@ -16,4 +16,4 @@ export const defaultLogo =
 export const fallbackBanner =
   "https://images.unsplash.com/photo-1513757378314-e46255f6ed16?w=500&auto=format&fit=crop&q=60";
 
-export const BASE_URI = "http://qcrims.raybitprojects.com";
+export const BASE_URI = "https://qcrims.raybitprojects.com";
