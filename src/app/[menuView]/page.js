@@ -1,75 +1,51 @@
 "use client";
+export const dynamic = "force-dynamic";
+
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useParams } from "next/navigation";
 import { getQrMenu } from "../utils/api";
 import { BASE_URI } from "../utils/constants";
-
-// const menu = [
-//   {
-//     Category: "Starters",
-//     Items: [
-//       {
-//         name: "Veg Spring Rolls",
-//         description: "Crispy rolls with spiced vegetables.",
-//         price: "₹120",
-//       },
-//       {
-//         name: "Paneer Tikka",
-//         description: "Grilled paneer with smoky flavors.",
-//         price: "₹180",
-//       },
-//     ],
-//   },
-//   {
-//     Category: "Main Course",
-//     Items: [
-//       {
-//         name: "Butter Naan",
-//         description: "Soft Indian bread with butter.",
-//         price: "₹40",
-//       },
-//       {
-//         name: "Paneer Butter Masala",
-//         description: "Creamy tomato curry with cottage cheese.",
-//         price: "₹220",
-//       },
-//     ],
-//   },
-//   {
-//     Category: "Beverages",
-//     Items: [
-//       {
-//         name: "Masala Chai",
-//         description: "Spiced Indian tea.",
-//         price: "₹30",
-//       },
-//       {
-//         name: "Cold Coffee",
-//         description: "Chilled creamy coffee.",
-//         price: "₹90",
-//       },
-//     ],
-//   },
-// ];
+import Image from "next/image";
 
 const QRMenuView = () => {
   const { menuView } = useParams();
-  const [menu, setMenu] = useState([]);
+  const [menu, setMenu] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     getQrMenu(menuView).then(
       ({ data }) => {
         setMenu(data.business);
-        console.log(data.business);
         setError(null);
+        setLoading(false);
       },
       (err) => {
         setError(err?.message || "Something went wrong. Please try again.");
+        setLoading(false);
       }
     );
-  }, []);
+  }, [menuView]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-lg font-medium text-gray-700">
+        Loading menu...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-700 font-semibold">
+        {error}
+      </div>
+    );
+  }
+
+  if (!menu) return null;
 
   return (
     <div className="min-h-screen p-6 text-black">
@@ -79,14 +55,11 @@ const QRMenuView = () => {
         transition={{ duration: 0.6 }}
         className="mx-auto max-w-4xl"
       >
-        {error && (
-          <div className="bg-red-100 text-red-700 border border-red-300 px-4 py-3 rounded mb-6 text-center">
-            {error}
-          </div>
-        )}
-
         <div>
-          <img
+          <Image
+            width={0}
+            height={0}
+            sizes="100vw"
             src={
               menu.logo
                 ? `${BASE_URI}/${menu.logo}`
@@ -106,7 +79,7 @@ const QRMenuView = () => {
               {section.name} 👇
             </h2>
             <div className="grid gap-4">
-              {section.Items.map((item, idx) => (
+              {section.Items?.map((item, idx) => (
                 <motion.div
                   key={idx}
                   whileHover={{ scale: 1.02 }}
@@ -122,7 +95,7 @@ const QRMenuView = () => {
                       </p>
                     </div>
                     <span className="text-md font-semibold text-[#6220fb]">
-                      &#8377; {item.price}
+                      ₹ {item.price}
                     </span>
                   </div>
                 </motion.div>

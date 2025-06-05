@@ -62,7 +62,7 @@ const BusinessSearch = ({ onSelect }) => {
     } else if (isScriptLoaded) {
       initializeAutocomplete();
     }
-  }, [isScriptLoaded]);
+  }, [isScriptLoaded, onSelect]);
 
   return (
     <>

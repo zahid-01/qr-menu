@@ -1,8 +1,8 @@
 "use client";
 import Link from "next/link";
-import Button from "../components/Button/page";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Button from "../components/Button";
 
 const fadeIn = (direction = "up", delay = 0) => {
   return {
@@ -199,7 +199,10 @@ export default function LandingPage() {
           className="bg-white p-4 rounded-lg shadow-lg"
           variants={fadeIn("up", 0.2)}
         >
-          <img
+          <Image
+            width={0}
+            height={0}
+            sizes="100vw"
             src="https://img.freepik.com/free-vector/qr-code-person-holding-smartphone_23-2148620753.jpg?ga=GA1.1.364166860.1747116538&semt=ais_hybrid&w=740"
             alt="Cafe Mauro QR Code"
             className="w-64 h-64 object-contain"
@@ -235,7 +238,14 @@ export default function LandingPage() {
           {/* Left section */}
           <motion.div variants={fadeUp} className="flex-1 max-w-xs">
             <div className="flex items-center mb-2">
-              <img src="/qr-icon.png" alt="QR Icon" className="w-5 h-5 mr-2" />
+              <Image
+                width={0}
+                height={0}
+                sizes="100vw"
+                src="/qr-icon.png"
+                alt="QR Icon"
+                className="w-5 h-5 mr-2"
+              />
               <span className="text-2xl font-bold text-gray-900">
                 <span className="text-[#6220fb]">QR</span>menu
               </span>
@@ -247,7 +257,10 @@ export default function LandingPage() {
             </p>
             <p className="text-xs text-gray-500 font-semibold">
               POWERED BY{" "}
-              <img
+              <Image
+                width={0}
+                height={0}
+                sizes="100vw"
                 src="/dopweb-logo.png"
                 alt="QR Logo"
                 className="inline w-16 ml-1"

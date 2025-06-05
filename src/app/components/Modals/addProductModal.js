@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Button from "../Button/page";
+import Button from "../Button";
 
 export default function AddProductModal({
   isOpen,

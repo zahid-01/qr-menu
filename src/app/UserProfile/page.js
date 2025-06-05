@@ -16,7 +16,6 @@ import {
   FaGlobe,
   FaBalanceScale,
 } from "react-icons/fa";
-import Button from "../components/Button/page";
 import {
   addNewCategory,
   addNewProduct,
@@ -35,6 +34,8 @@ import AddProductModal from "../components/Modals/addProductModal";
 import { BASE_URI } from "../utils/constants";
 import { useRouter } from "next/navigation";
 import LogoutConfirmationModal from "../components/Modals/logoutModal";
+import Image from "next/image";
+import Button from "../components/Button";
 // import { BASE_URI } from "../utils/constants";
 
 const tabs = [
@@ -236,7 +237,7 @@ const Profile = () => {
     };
 
     getMyQrs();
-  }, []);
+  }, [setQr, setQRDetails]);
 
   const handlePublished = async () => {
     try {
@@ -297,7 +298,10 @@ const Profile = () => {
             <span className="uppercase text-xl font-semibold">{activeTab}</span>
             {/* Go Pro */}
             <div className="bg-white shadow rounded-lg p-4 flex flex-col md:flex-row items-center gap-4 mt-4">
-              <img
+              <Image
+                width={0}
+                height={0}
+                sizes="100vw"
                 src="https://img.freepik.com/free-vector/access-code-handprint-scanner-secure-entry-individual-sign-system-security-personal-parole-male-computer-user-cartoon-character_335657-2573.jpg"
                 alt="No Ads"
                 className="w-20 h-20"
@@ -317,7 +321,10 @@ const Profile = () => {
 
             {/* Google Connect */}
             <div className="bg-white shadow rounded-lg p-4 flex flex-col md:flex-row items-start gap-4">
-              <img
+              <Image
+                width={0}
+                height={0}
+                sizes="100vw"
                 src="https://img.freepik.com/free-vector/real-estate-searching-illustration_23-2148655466.jpg"
                 alt="Google Connect"
                 className="w-20 h-20 mx-auto"
@@ -339,7 +346,14 @@ const Profile = () => {
             {qr ? (
               <div className="bg-white shadow rounded-lg p-4 flex flex-col md:flex-row items-center justify-between gap-4">
                 {qr ? (
-                  <img src={qr} alt="QR Code" className="w-28 h-28" />
+                  <Image
+                    width={0}
+                    height={0}
+                    sizes="100vw"
+                    src={qr}
+                    alt="QR Code"
+                    className="w-28 h-28"
+                  />
                 ) : (
                   <p>Loading QR...</p>
                 )}
@@ -360,7 +374,7 @@ const Profile = () => {
             ) : (
               <div className="bg-white shadow rounded-lg p-6 flex items-center justify-between">
                 <p className="text-gray-700 text-sm">
-                  You haven't created your business yet.
+                  You haven&apos;t created your business yet.
                 </p>
                 <Button
                   text="Get Started"
@@ -733,7 +747,10 @@ const Profile = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                     <div className="bg-white shadow rounded-lg p-4">
                       <h3 className="font-semibold mb-2">Logo</h3>
-                      <img
+                      <Image
+                        width={0}
+                        height={0}
+                        sizes="100vw"
                         src="https://raybittechnologies.com/wp-content/uploads/2024/03/logoraybit-new.png"
                         alt="logo"
                         className="w-auto h-20 mb-4"
@@ -742,7 +759,10 @@ const Profile = () => {
                     </div>
                     <div className="bg-white shadow rounded-lg p-4">
                       <h3 className="font-semibold mb-2">Main banner</h3>
-                      <img
+                      <Image
+                        width={0}
+                        height={0}
+                        sizes="100vw"
                         src="https://raybittechnologies.com/wp-content/uploads/2024/03/logoraybit-new.png"
                         alt="logo"
                         className="w-auto h-20 mb-4"

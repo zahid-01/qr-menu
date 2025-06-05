@@ -157,7 +157,7 @@ export default function CreateBusiness({ params }) {
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, []);
+  }, [router]);
 
   return (
     <div>

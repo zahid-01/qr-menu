@@ -1,4 +1,4 @@
-import { addBusiness } from "../utils/api";
+"use client";
 import { bannerImages } from "../utils/constants";
 
 const BusinessSetup = ({ selectedType, setSelectedType, setBanner }) => {

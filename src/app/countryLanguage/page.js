@@ -28,7 +28,7 @@ const CountryLanguageSelect = ({
         .sort((a, b) => a.name.localeCompare(b.name));
       setCountries(countryList);
     });
-  }, []);
+  }, [setCountries]);
 
   useEffect(() => {
     setLanguages([]);

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export default function LogoUpload({ logo, setLogo, onComplete }) {
@@ -33,17 +34,20 @@ export default function LogoUpload({ logo, setLogo, onComplete }) {
       setPreviewUrl(stored);
       setLogo(stored);
     }
-  }, []);
+  }, [setPreviewUrl, setLogo]);
 
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-lg font-semibold mb-2">Upload Your Logo</h2>
         {previewUrl ? (
-          <img
+          <Image
+            width={0}
+            height={0}
+            sizes="100vw"
             src={previewUrl}
             alt="Logo Preview"
-            className="h-24 object-contain mb-4"
+            className="h-24 w-auto object-contain mb-4"
           />
         ) : (
           <div className="text-gray-400 mb-4">No logo selected</div>

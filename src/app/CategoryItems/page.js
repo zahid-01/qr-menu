@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Button from "../components/Button/page";
+import Button from "../components/Button";
 
 export default function CategoryItemsManager({
   categories,
@@ -14,7 +14,6 @@ export default function CategoryItemsManager({
   const handleContinue = () => {
     const token = localStorage.getItem("token");
     router.push(token ? `/createBusiness/${token}` : "/Login");
-    // router.push("/createBusiness");
   };
 
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -52,7 +51,6 @@ export default function CategoryItemsManager({
     resetForm();
   };
 
-  console.log("createdItems", createdItems);
   const handleEdit = (index) => {
     const item = createdItems[selectedCategory]?.[index];
 
@@ -85,7 +83,7 @@ export default function CategoryItemsManager({
         return { ...prevBeta, [el]: [] };
       })
     );
-  }, []);
+  }, [setCreatedItems, categories]);
 
   return (
     <div className="p-6 bg-white rounded-lg shadow-md">
@@ -107,7 +105,7 @@ export default function CategoryItemsManager({
           <option value="" className="text-red-800">
             -- Select --
           </option>
-          {categories.map((cat, index) => (
+          {categories?.map((cat, index) => (
             <option key={index} value={cat}>
               {cat}
             </option>
@@ -174,49 +172,44 @@ export default function CategoryItemsManager({
       )}
 
       {/* Item List */}
-      {selectedCategory && (
+      {selectedCategory && createdItems?.[selectedCategory]?.length > 0 && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-2">
             Items in {selectedCategory}
           </h3>
           <ul className="space-y-2">
-            {
-              // (
-              //   categories.find((c) => c.name === selectedCategory)?.items || []
-              // )
-              createdItems[selectedCategory].map((item, index) => (
-                <li
-                  key={index}
-                  className="flex justify-between items-start bg-gray-50 p-3 rounded border"
-                >
-                  <div>
-                    <div className="font-medium">{item.name}</div>
-                    <div className="text-sm text-gray-600">
-                      ₹{item.price}{" "}
-                      {item.description && `- ${item.description}`}
-                    </div>
+            {createdItems[selectedCategory].map((item, index) => (
+              <li
+                key={index}
+                className="flex justify-between items-start bg-gray-50 p-3 rounded border"
+              >
+                <div>
+                  <div className="font-medium">{item.name}</div>
+                  <div className="text-sm text-gray-600">
+                    ₹{item.price} {item.description && `- ${item.description}`}
                   </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleEdit(index)}
-                      className="text-blue-500 underline text-sm"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(index)}
-                      className="text-red-500 underline text-sm"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))
-            }
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleEdit(index)}
+                    className="text-blue-500 underline text-sm"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(index)}
+                    className="text-red-500 underline text-sm"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
       )}
-      {selectedCategory && createdItems && (
+
+      {selectedCategory && createdItems?.[selectedCategory] && (
         <Button onClick={handleContinue} text="Continue" />
       )}
     </div>

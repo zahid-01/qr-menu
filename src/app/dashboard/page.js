@@ -2,9 +2,9 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getMyBusiness } from "@/app/utils/api";
-import Button from "../components/Button";
 import { BASE_URI } from "../utils/constants";
 import Image from "next/image";
+import Button from "../components/Button";
 
 const Dashboard = () => {
   const [businesses, setBusinesses] = useState([]);
@@ -23,7 +23,7 @@ const Dashboard = () => {
       }
     };
     fetchBusinesses();
-  }, []);
+  }, [setBusinesses]);
 
   const handleClick = (id) => {
     router.push(`/UserProfile`);

@@ -1,5 +1,6 @@
 "use client";
 import { bannerImages, fallbackBanner } from "@/app/utils/constants";
+import Image from "next/image";
 import React from "react";
 
 const MenuPreview = ({
@@ -20,14 +21,20 @@ const MenuPreview = ({
 
         <div className="w-full h-full bg-white overflow-y-auto scrollbar-hide rounded-[36px]">
           <div className="relative w-full h-42 rounded-t-[36px] overflow-hidden">
-            <img
+            <Image
               src={bannerProp || bannerImages[businessType] || fallbackBanner}
               alt="Banner"
+              width={0}
+              height={0}
+              sizes="100vw"
               className="w-full h-full object-cover"
             />
             {logo && (
-              <img
+              <Image
                 src={logo}
+                width={0}
+                height={0}
+                sizes="100vw"
                 alt="Business Logo"
                 className="absolute bottom-[0px] left-1/2 transform -translate-x-1/2 w-14 h-14 rounded-full border-2 border-white bg-white"
               />
