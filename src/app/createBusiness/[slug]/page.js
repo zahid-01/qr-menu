@@ -140,10 +140,10 @@ export default function CreateBusiness({ params }) {
           );
         });
       }
-
+      console.log("payload");
       try {
         const res = await register(formData);
-        console.log("Business created:", res.data);
+        console.log("Business created:", res);
         router.push("/UserProfile");
       } catch (err) {
         console.error("Business creation failed:", err);

@@ -7,13 +7,15 @@ const nextConfig = {
       "img.freepik.com",
       "images.unsplash.com",
       "qcrims.raybitprojects.com",
+      "192.168.100.22",
+      "192.168.100.10",
     ],
 
     remotePatterns: [
       {
         protocol: "http",
         hostname: "localhost",
-        port: "5050", // include the port if needed
+        port: "5050",
         pathname: "/**",
       },
     ],

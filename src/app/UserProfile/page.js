@@ -21,6 +21,7 @@ import {
   addNewProduct,
   deleteCategory,
   deleteItemById,
+  fileUpload,
   getCategories,
   getMyQr,
   getProducts,
@@ -36,6 +37,7 @@ import { useRouter } from "next/navigation";
 import LogoutConfirmationModal from "../components/Modals/logoutModal";
 import Image from "next/image";
 import Button from "../components/Button";
+import FileUploadButton from "../components/fileUploadButton";
 // import { BASE_URI } from "../utils/constants";
 
 const tabs = [
@@ -290,6 +292,21 @@ const Profile = () => {
     }
   };
 
+  const uploadFileToBackend = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    console.log(file);
+
+    try {
+      const response = await fileUpload(formData);
+
+      await fetchCategories();
+      console.log("Upload success:", response);
+    } catch (err) {
+      console.error("Upload error:", err);
+    }
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case "home":
@@ -417,16 +434,25 @@ const Profile = () => {
               <div className="space-y-4">
                 <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 justify-between">
                   <h2 className="text-lg font-semibold">Categories</h2>
-                  <Button
-                    text="Add Category"
-                    variant="primary"
-                    onClick={() => setModalOpen(true)}
-                  />
-                  <AddCategoryModal
-                    isOpen={isModalOpen}
-                    onClose={() => setModalOpen(false)}
-                    onSubmit={addCategory}
-                  />
+                  <div className="flex">
+                    <FileUploadButton
+                      text="Import File"
+                      accept=".xls,.xlsx"
+                      onFileSelect={uploadFileToBackend}
+                      variant="secondary"
+                    />
+                    <Button text="Export" variant="secondary" />
+                    <Button
+                      text="Add Category"
+                      variant="primary"
+                      onClick={() => setModalOpen(true)}
+                    />
+                    <AddCategoryModal
+                      isOpen={isModalOpen}
+                      onClose={() => setModalOpen(false)}
+                      onSubmit={addCategory}
+                    />
+                  </div>
                 </div>
 
                 <div className="flex space-x-4 pb-2">

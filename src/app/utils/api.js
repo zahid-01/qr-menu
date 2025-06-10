@@ -1,5 +1,6 @@
 const { default: axios } = require("axios");
 
+// const BASE_URI = "http://localhost:5050/api/v1";
 const BASE_URI = "https://qcrims.raybitprojects.com/api/v1";
 
 const api = axios.create({
@@ -113,6 +114,15 @@ export const deleteItemById = (itemId) => {
 export const getMyBusiness = () => {
   const token = localStorage.getItem("token");
   return axios.get(`${BASE_URI}/businesses/myBuisnesses`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const fileUpload = (formData) => {
+  const token = localStorage.getItem("token");
+  return axios.post(`${BASE_URI}/upload`, formData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
