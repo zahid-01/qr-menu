@@ -42,7 +42,7 @@ const CountryLanguageSelect = ({
           `https://restcountries.com/v3.1/alpha/${selectedCountry}?fields=languages`
         )
         .then((res) => {
-          const langs = res.data[0]?.languages || {};
+          const langs = res.data?.languages || {};
           setLanguages(Object.values(langs));
         });
     }
