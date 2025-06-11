@@ -19,15 +19,17 @@ const CountryLanguageSelect = ({
   };
 
   useEffect(() => {
-    axios.get("https://restcountries.com/v3.1/all").then((res) => {
-      const countryList = res.data
-        .map((country) => ({
-          name: country.name.common,
-          code: country.cca2,
-        }))
-        .sort((a, b) => a.name.localeCompare(b.name));
-      setCountries(countryList);
-    });
+    axios
+      .get("https://restcountries.com/v3.1/all?fields=name,cca2")
+      .then((res) => {
+        const countryList = res.data
+          .map((country) => ({
+            name: country.name.common,
+            code: country.cca2,
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name));
+        setCountries(countryList);
+      });
   }, [setCountries]);
 
   useEffect(() => {
@@ -36,7 +38,9 @@ const CountryLanguageSelect = ({
 
     if (selectedCountry) {
       axios
-        .get(`https://restcountries.com/v3.1/alpha/${selectedCountry}`)
+        .get(
+          `https://restcountries.com/v3.1/alpha/${selectedCountry}?fields=languages`
+        )
         .then((res) => {
           const langs = res.data[0]?.languages || {};
           setLanguages(Object.values(langs));
