@@ -283,7 +283,7 @@ const Profile = () => {
   const handleLogout = async () => {
     console.log("Logout clicked");
     try {
-      localStorage.removeItem("token");
+      localStorage.clear();
       sessionStorage.clear();
       setShowLogoutModal(false);
       router.push("/");
