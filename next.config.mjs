@@ -9,6 +9,8 @@ const nextConfig = {
       "qcrims.raybitprojects.com",
       "192.168.100.22",
       "192.168.100.10",
+      "192.168.100.20",
+      "192.168.100.37",
     ],
 
     remotePatterns: [

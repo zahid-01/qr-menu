@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "../components/Button";
+import { refreshToken } from "../utils/api";
 
 export default function CategoryItemsManager({
   categories,
@@ -13,7 +14,15 @@ export default function CategoryItemsManager({
   const router = useRouter();
   const handleContinue = () => {
     const token = localStorage.getItem("token");
-    router.push(token ? `/createBusiness/${token}` : "/Login");
+    refreshToken(token).then(
+      () => {
+        router.push(`/createBusiness/${token}`);
+      },
+      (err) => {
+        localStorage.removeItem("token");
+        router.push("/Login");
+      }
+    );
   };
 
   const [selectedCategory, setSelectedCategory] = useState("");

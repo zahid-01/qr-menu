@@ -325,14 +325,13 @@ const Profile = () => {
               />
               <div className="flex-1 space-y-4">
                 <h2 className="font-semibold text-lg">
-                  Go Pro – No Ads, Full Control!
+                  Go Pro – Add reviews also!
                 </h2>
                 <p className="text-sm text-gray-600">
-                  Enhance your menus with a clean, ad-free experience. Keep
-                  customers focused on your offerings and strengthen your brand
-                  image.
+                  Enhance your menus with a review section. Let users also get
+                  the review for better customer experience
                 </p>
-                <Button text="Upgrade at $9/month" />
+                <Button text="Upgrade at $3/month" />
               </div>
             </div>
 

@@ -2,10 +2,16 @@
 import React from "react";
 import styled from "styled-components";
 
-const Button = ({ text, variant = "primary", className = "", onClick }) => {
+const Button = ({
+  text,
+  variant = "primary",
+  className = "",
+  onClick,
+  width,
+}) => {
   return (
     <StyledWrapper variant={variant} className={className}>
-      <button className={`btn ${variant}`} onClick={onClick}>
+      <button className={`btn ${variant}`} onClick={onClick} style={{ width }}>
         {text}
       </button>
     </StyledWrapper>
@@ -14,9 +20,8 @@ const Button = ({ text, variant = "primary", className = "", onClick }) => {
 
 const StyledWrapper = styled.div`
   .btn {
-    width: auto;
+    width: ${({ width }) => width || "auto"};
     height: auto;
-    margin: 0.5em;
     border: none;
     border-radius: 5px;
     font-size: 18px;

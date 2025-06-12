@@ -162,7 +162,7 @@ export default function CreateBusiness({ params }) {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white">
       <div className="w-12 h-12 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
-      <p className="mt-4 text-gray-600 text-lg">Loading your profile...</p>
+      <p className="mt-4 text-gray-600 text-lg">Loading your Dashboard...</p>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 const { default: axios } = require("axios");
 
-// const BASE_URI = "http://localhost:5050/api/v1";
+// const BASE_URI = "http://192.168.100.37:5050/api/v1";
 const BASE_URI = "https://qcrims.raybitprojects.com/api/v1";
 
 const api = axios.create({
@@ -127,4 +127,24 @@ export const fileUpload = (formData) => {
       Authorization: `Bearer ${token}`,
     },
   });
+};
+
+export const refreshToken = async (token) => {
+  return axios.post(`${BASE_URI}/auth/refreshToken`, null, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const getReview = async (token, id) => {
+  return await axios.get(`${BASE_URI}/reviews/place/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const addReview = async (reviewData) => {
+  return axios.post(`${BASE_URI}/reviews`, reviewData);
 };
