@@ -30,10 +30,8 @@ const QRMenuView = () => {
     getQrMenu(menuView).then(
       ({ data }) => {
         setMenu(data.business);
-        console.log(data.business);
         setBusinessId(data.business.id);
         getReview("edxex", data.business.id).then(({ data }) => {
-          console.log(data);
           setUserReviews(data.data);
         });
         setError(null);
@@ -231,14 +229,14 @@ const QRMenuView = () => {
               placeholder="Your Email"
               value={reviewEmail}
               onChange={(e) => setReviewEmail(e.target.value)}
-              className="w-full border px-3 py-2 rounded-md mb-3"
+              className="w-full border px-3 py-2 rounded-md mb-3 focus:outline-none focus:border-[#6220fb]"
             />
             <input
               type="text"
               placeholder="Your Name"
               value={reviewName}
               onChange={(e) => setReviewName(e.target.value)}
-              className="w-full border px-3 py-2 rounded-md mb-3"
+              className="w-full border px-3 py-2 rounded-md mb-3 focus:outline-none focus:border-[#6220fb]"
             />
 
             <div className="flex items-center mb-3 space-x-1">
@@ -260,7 +258,7 @@ const QRMenuView = () => {
               placeholder="Write your review..."
               value={reviewInput}
               onChange={(e) => setReviewInput(e.target.value)}
-              className="w-full px-3 py-2 border rounded-md mb-4"
+              className="w-full px-3 py-2 border rounded-md mb-4 focus:outline-none focus:border-[#6220fb]"
             />
 
             <div className="flex justify-between">
