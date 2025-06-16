@@ -27,6 +27,7 @@ const StyledWrapper = styled.div`
     font-size: 18px;
     font-weight: 500;
     cursor: pointer;
+    margin: 4px;
     position: relative;
     z-index: 1;
     padding: 8px 16px;

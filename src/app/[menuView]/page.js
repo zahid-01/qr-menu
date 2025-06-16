@@ -24,6 +24,7 @@ const QRMenuView = () => {
   const [reviewEmail, setReviewEmail] = useState("");
   const [reviewRating, setReviewRating] = useState(0);
   const [businessId, setBusinessId] = useState(null);
+  const [rating, setRating] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -31,6 +32,7 @@ const QRMenuView = () => {
       ({ data }) => {
         setMenu(data.business);
         setBusinessId(data.business.id);
+        setRating(data.business.averageRatings);
         getReview("edxex", data.business.id).then(({ data }) => {
           setUserReviews(data.data);
         });
@@ -134,14 +136,25 @@ const QRMenuView = () => {
             Menu
           </button>
           <button
-            className={`font-semibold text-xl cursor-pointer ${
+            className={`font-semibold text-xl cursor-pointer flex items-center  ${
               activeTab === "reviews"
                 ? "border-b-2 border-[#6220fb] text-[#6220fb]"
                 : "text-gray-500"
             }`}
             onClick={() => setActiveTab("reviews")}
           >
-            Reviews
+            Reviews{" "}
+            <span className="text-sm ml-4 text-[#6220fb] flex">
+              (Reviews: {rating}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              {[...Array(5)].map((_, i) => (
+                <AiFillStar
+                  key={i}
+                  className={i < rating ? "text-yellow-400" : "text-gray-300"}
+                  size={20}
+                />
+              ))}
+              )
+            </span>
           </button>
         </div>
 
