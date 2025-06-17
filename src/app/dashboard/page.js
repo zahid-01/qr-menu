@@ -5,6 +5,7 @@ import { getMyBusiness } from "@/app/utils/api";
 import { BASE_URI } from "../utils/constants";
 import Image from "next/image";
 import Button from "../components/Button";
+import Link from "next/link";
 
 const Dashboard = () => {
   const [businesses, setBusinesses] = useState([]);
@@ -26,7 +27,8 @@ const Dashboard = () => {
   }, [setBusinesses]);
 
   const handleClick = (id) => {
-    router.push(`/UserProfile`);
+    console.log("Business ID:", id);
+    router.push(`/UserProfile/${id}`);
   };
 
   const handleAddBusiness = () => {
@@ -51,10 +53,10 @@ const Dashboard = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {businesses.map((biz) => (
-              <div
+              <Link
                 key={biz.id}
+                href={`/UserProfile/${biz.id}`}
                 className="rounded-lg shadow hover:scale-98 duration-300 hover:shadow-lg transition cursor-pointer overflow-hidden"
-                onClick={() => handleClick(biz.id)}
               >
                 {biz.banner && (
                   <Image
@@ -88,7 +90,7 @@ const Dashboard = () => {
                     {biz.description}
                   </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}

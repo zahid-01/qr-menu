@@ -1,7 +1,7 @@
 const { default: axios } = require("axios");
 
-// const BASE_URI = "http://localhost:5050/api/v1";
-const BASE_URI = "https://qcrims.raybitprojects.com/api/v1";
+// const BASE_URI = "http://192.168.100.11:5050/api/v1";
+const BASE_URI = "https://qrmenuserver.raybitprojects.com/api/v1";
 
 const api = axios.create({
   baseURL: BASE_URI,
@@ -75,10 +75,10 @@ export const deleteCategory = async (id) => {
   });
 };
 
-export const getMyQr = async () => {
+export const getMyQr = async (id) => {
   const token = localStorage.getItem("token");
 
-  return await api.get(`${BASE_URI}/businesses/getMyQr`, {
+  return await api.get(`${BASE_URI}/businesses/getMyQr/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -113,7 +113,7 @@ export const deleteItemById = (itemId) => {
 
 export const getMyBusiness = () => {
   const token = localStorage.getItem("token");
-  return axios.get(`${BASE_URI}/businesses/myBuisnesses`, {
+  return axios.get(`${BASE_URI}/businesses/myBusinesses`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -29,16 +29,16 @@ import {
   getQrMenu,
   updateCategory,
   updateItem,
-} from "../utils/api";
-import AddCategoryModal from "../components/Modals/categorymodal";
-import AddProductModal from "../components/Modals/addProductModal";
-import { BASE_URI } from "../utils/constants";
-import { useRouter } from "next/navigation";
-import LogoutConfirmationModal from "../components/Modals/logoutModal";
+} from "../../utils/api";
+import AddCategoryModal from "../../components/Modals/categorymodal";
+import AddProductModal from "../../components/Modals/addProductModal";
+import { BASE_URI } from "../../utils/constants";
+import LogoutConfirmationModal from "../../components/Modals/logoutModal";
 import Image from "next/image";
-import Button from "../components/Button";
-import FileUploadButton from "../components/fileUploadButton";
-// import { BASE_URI } from "../utils/constants";
+import Button from "../../components/Button";
+import FileUploadButton from "../../components/fileUploadButton";
+import { useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 
 const tabs = [
   { id: "home", label: "Home", icon: FaHome },
@@ -107,7 +107,7 @@ const Profile = () => {
   const [publish, setPublish] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const router = useRouter();
+  const params = useParams();
   const [isModalOpen, setModalOpen] = useState(false);
   const [editingCategoryId, setEditingCategoryId] = useState(null);
   const [editedCategoryName, setEditedCategoryName] = useState("");
@@ -119,6 +119,19 @@ const Profile = () => {
     price: "",
     description: "",
   });
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState("monthly");
+
+  console.log(params.id);
+  const router = useRouter();
+
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
+  const handlePlanChange = (plan) => setSelectedPlan(plan);
+  const proceedToPayment = () => {
+    console.log(`Proceeding with ${selectedPlan} plan`);
+    closeModal();
+  };
 
   const fetchCategories = async () => {
     try {
@@ -132,20 +145,6 @@ const Profile = () => {
   const filteredCategories = categories.filter((cat) =>
     cat.name.toLowerCase().includes(searchQuery)
   );
-
-  // const fetchProducts = async () => {
-  //   try {
-  //     const response = await getProducts(qrDetails.business_id);
-
-  //     const products = response.data.data[0]?.Items || [];
-
-  //     console.log(products);
-
-  //     setProducts(products);
-  //   } catch (error) {
-  //     console.error("Failed to fetch products", error);
-  //   }
-  // };
 
   const addCategory = async (categoryName) => {
     try {
@@ -227,12 +226,10 @@ const Profile = () => {
   useEffect(() => {
     const getMyQrs = async () => {
       try {
-        const response = await getMyQr();
-        console.log(response.data);
+        const response = await getMyQr(params.id);
         const fullQrUrl = `${BASE_URI}${response.data.business.qrcode}`;
         setQr(fullQrUrl);
         setQRDetails(response.data);
-        // console.log(response.data.business_id);
       } catch (error) {
         console.error("Failed to fetch qr", error);
       }
@@ -281,7 +278,6 @@ const Profile = () => {
   };
 
   const handleLogout = async () => {
-    console.log("Logout clicked");
     try {
       localStorage.clear();
       sessionStorage.clear();
@@ -331,9 +327,77 @@ const Profile = () => {
                   Enhance your menus with a review section. Let users also get
                   the review for better customer experience
                 </p>
-                <Button text="Upgrade at $3/month" />
+                <Button onClick={openModal} text="Upgrade at $2/month" />
               </div>
             </div>
+            {/* Modal */}
+            {isOpen && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+                <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+                  <h3 className="text-xl font-semibold mb-4">
+                    Choose Your Plan
+                  </h3>
+
+                  <div className="space-y-4 mb-6">
+                    <div
+                      className={`border rounded-lg p-4 cursor-pointer ${
+                        selectedPlan === "monthly"
+                          ? "border-blue-500 bg-blue-50"
+                          : "border-gray-200"
+                      }`}
+                      onClick={() => handlePlanChange("monthly")}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <h4 className="font-medium">Monthly Plan</h4>
+                          <p className="text-sm text-gray-600">
+                            Flexible subscription
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold">$2/month</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div
+                      className={`border rounded-lg p-4 cursor-pointer ${
+                        selectedPlan === "yearly"
+                          ? "border-blue-500 bg-blue-50"
+                          : "border-gray-200"
+                      }`}
+                      onClick={() => handlePlanChange("yearly")}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <h4 className="font-medium">Yearly Plan</h4>
+                          <p className="text-sm text-gray-600">
+                            Save 25% with annual billing
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-bold">$18/year</p>
+                          <p className="text-sm text-gray-500">($1.50/month)</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between space-x-3">
+                    <Button
+                      onClick={closeModal}
+                      variant="secondary"
+                      text="Cancel"
+                    />
+                    <Button
+                      onClick={proceedToPayment}
+                      variant="primary"
+                      text=" Proceed to Payment"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Google Connect */}
             <div className="bg-white shadow rounded-lg p-4 flex flex-col md:flex-row items-start gap-4">
@@ -869,11 +933,9 @@ const Profile = () => {
     <div className="flex h-screen overflow-hidden">
       <div className="flex flex-col bg-white text-gray-700 w-[5rem] md:w-[20rem] flex-shrink-0 h-[100vh] overflow-hidden justify-between">
         <div>
-          <input
-            type="text"
-            placeholder="https://qrmenu.com/menus/raybit-technologies"
-            className="hidden md:block w-[19rem] p-2 border border-gray-300 text-xs text-center rounded-md m-2"
-          />
+          <div className="hidden md:block w-[19rem] p-2 border border-gray-300 text-xs text-center rounded-md m-2 bg-gray-50">
+            {qr || "https://qrmenu.com/menus/raybit-technologies"}
+          </div>
           <div className="w-[5rem] md:w-full flex flex-col justify-start p-2">
             {tabs
               .filter((t) => t.id !== "settings" && t.id !== "logout")

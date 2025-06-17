@@ -3,6 +3,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Button from "../components/Button";
+import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 const fadeIn = (direction = "up", delay = 0) => {
   return {
@@ -273,23 +274,6 @@ export default function LandingPage() {
             variants={fadeUp}
             className="flex flex-wrap gap-10 flex-1 justify-between border-l pl-10"
           >
-            {/* Discover */}
-            <div>
-              <h4 className="font-semibold mb-2">Discover</h4>
-              <ul className="space-y-1">
-                <li>
-                  <Link href="#" className="hover:underline">
-                    Menu pricing
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="hover:underline">
-                    My Menus
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
             {/* Company */}
             <div>
               <h4 className="font-semibold mb-2">Company</h4>
@@ -300,13 +284,18 @@ export default function LandingPage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/dashboard" className="hover:underline">
-                    Web Agency
+                  <Link href="/about" className="hover:underline">
+                    About Us
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:underline">
-                    Website Builder
+                  <Link href="/contact" className="hover:underline">
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/blogs" className="hover:underline">
+                    Blogs
                   </Link>
                 </li>
               </ul>
@@ -317,12 +306,12 @@ export default function LandingPage() {
               <h4 className="font-semibold mb-2">Policies</h4>
               <ul className="space-y-1">
                 <li>
-                  <Link href="#" className="hover:underline">
+                  <Link href="/terms" className="hover:underline">
                     Terms Of Use
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="hover:underline">
+                  <Link href="/privacy" className="hover:underline">
                     Privacy Policy
                   </Link>
                 </li>
@@ -332,22 +321,21 @@ export default function LandingPage() {
             {/* Contact */}
             <div>
               <h4 className="font-semibold mb-2">Get in touch</h4>
-              <p className="mb-2">+1(213) 550-3317</p>
               <div className="flex space-x-2">
-                {["facebook", "instagram", "youtube"].map((platform) => (
-                  <Link
-                    key={platform}
-                    href="#"
-                    className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full hover:bg-gray-200 transition"
-                  >
-                    <Image
-                      src={`/icons/${platform}.svg`}
-                      alt={`${platform} icon`}
-                      height={4}
-                      width={4}
-                    />
-                  </Link>
-                ))}
+                <Link
+                  href="https://www.facebook.com/dopweb"
+                  target="_blank"
+                  className="text-blue-600 hover:text-blue-800"
+                >
+                  <FaFacebook className="w-6 h-6" />
+                </Link>
+                <Link
+                  href="https://www.instagram.com/dopweb/"
+                  target="_blank"
+                  className="text-pink-600 hover:text-pink-800"
+                >
+                  <FaInstagram />
+                </Link>
               </div>
             </div>
           </motion.div>

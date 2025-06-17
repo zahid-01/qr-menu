@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar/page";
 import MenuPreview from "../components/MenuPreview/page";
 import CountryLanguageSelect from "../countryLanguage/page";
 import BusinessSetup from "../Select_Business/page";
@@ -167,8 +166,6 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
-
       {/* Stepper UI */}
       <div className="w-full overflow-x-auto">
         <div className="max-w-3xl md:mx-8 px-4 py-4 min-w-[500px] sm:min-w-0">

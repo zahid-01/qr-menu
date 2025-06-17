@@ -69,7 +69,7 @@ export default function CreateBusiness({ params }) {
         (key) => !sessionStorage.getItem(key)
       );
       if (isMissingData) {
-        router.push("/UserProfile");
+        router.push("/dashboard");
         return;
       }
 
@@ -144,7 +144,7 @@ export default function CreateBusiness({ params }) {
         const res = await register(formData);
 
         console.log("Business created:", res);
-        router.push("/UserProfile");
+        router.push("/dashboard");
       } catch (err) {
         console.error("Business creation failed:", err);
       }

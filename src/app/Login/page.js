@@ -42,7 +42,7 @@ export default function LoginForm() {
       localStorage.setItem("user", JSON.stringify(userInfo));
 
       toast.success("Login successful!");
-      router.push(`/createBusiness/${data.token}`);
+      router.push(`/dashboard`);
     } catch (err) {
       console.error("Login error:", err);
       toast.error("Something went wrong. Please try again.");
