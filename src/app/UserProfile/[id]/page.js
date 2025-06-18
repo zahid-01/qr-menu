@@ -15,6 +15,7 @@ import {
   FaCloud,
   FaGlobe,
   FaBalanceScale,
+  FaDashcube,
 } from "react-icons/fa";
 import {
   addNewCategory,
@@ -37,10 +38,11 @@ import LogoutConfirmationModal from "../../components/Modals/logoutModal";
 import Image from "next/image";
 import Button from "../../components/Button";
 import FileUploadButton from "../../components/fileUploadButton";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 
 const tabs = [
+  { id: "dashboard", label: "Dashboard", icon: FaDashcube },
   { id: "home", label: "Home", icon: FaHome },
   {
     id: "menu",
@@ -305,6 +307,9 @@ const Profile = () => {
 
   const renderContent = () => {
     switch (activeTab) {
+      case "dashboard":
+        redirect("/dashboard");
+        return null;
       case "home":
         return (
           <div className="space-y-6">
@@ -463,31 +468,6 @@ const Profile = () => {
                 />
               </div>
             )}
-
-            {/* Checklist */}
-            {/* <div className="bg-white shadow rounded-lg p-4">
-              <h3 className="font-semibold text-lg mb-4">
-                You are off to a great start
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  {options.map((option) => (
-                    <div key={option} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selected === option}
-                        onChange={() => handleSelect(option)}
-                      />
-                      <span className="text-sm">{option}</span>
-                    </div>
-                  ))}
-                </div>
-                <Button
-                  text={selected ? selected : "Select an action"}
-                  className="w-full"
-                />
-              </div>
-            </div> */}
           </div>
         );
       case "menu":
@@ -933,7 +913,7 @@ const Profile = () => {
     <div className="flex h-screen overflow-hidden">
       <div className="flex flex-col bg-white text-gray-700 w-[5rem] md:w-[20rem] flex-shrink-0 h-[100vh] overflow-hidden justify-between">
         <div>
-          <div className="hidden md:block w-[19rem] p-2 border border-gray-300 text-xs text-center rounded-md m-2 bg-gray-50">
+          <div className="hidden md:block w-[19rem] p-2 border border-gray-300 text-[10px] text-center rounded-md m-2 bg-gray-50">
             {qr || "https://qrmenu.com/menus/raybit-technologies"}
           </div>
           <div className="w-[5rem] md:w-full flex flex-col justify-start p-2">
