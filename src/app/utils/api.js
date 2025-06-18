@@ -148,3 +148,12 @@ export const getReview = async (token, id) => {
 export const addReview = async (reviewData) => {
   return axios.post(`${BASE_URI}/reviews`, reviewData);
 };
+
+export const getBusinessById = async (id) => {
+  const token = localStorage.getItem("token");
+  return await axios.get(`${BASE_URI}/businesses/business/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

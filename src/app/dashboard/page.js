@@ -5,15 +5,7 @@ import { getMyBusiness } from "@/app/utils/api";
 import { BASE_URI } from "../utils/constants";
 import Image from "next/image";
 import Button from "../components/Button";
-import {
-  FiPlus,
-  FiArrowRight,
-  FiTrendingUp,
-  FiUsers,
-  FiMenu,
-  FiSettings,
-} from "react-icons/fi";
-import { FaQrcode } from "react-icons/fa";
+import { FiPlus, FiArrowRight, FiMenu } from "react-icons/fi";
 
 const Dashboard = () => {
   const [businesses, setBusinesses] = useState([]);

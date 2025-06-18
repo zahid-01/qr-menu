@@ -12,7 +12,10 @@ const nextConfig = {
       "192.168.100.20",
       "192.168.100.37",
       "192.168.100.11",
+      "qrmenuserver.raybitprojects.comnull",
       "qrmenuserver.raybitprojects.com",
+      "raybittechnologies.com",
+      "qrmenuserver.raybitprojects.comhttps",
     ],
 
     remotePatterns: [

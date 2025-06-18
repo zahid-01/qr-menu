@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   FaHome,
   FaUtensils,
@@ -23,7 +23,9 @@ import {
   deleteCategory,
   deleteItemById,
   fileUpload,
+  getBusinessById,
   getCategories,
+  getMyBusiness,
   getMyQr,
   getProducts,
   getPublished,
@@ -123,8 +125,8 @@ const Profile = () => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("monthly");
+  const [images, setImages] = useState(null);
 
-  console.log(params.id);
   const router = useRouter();
 
   const openModal = () => setIsOpen(true);
@@ -135,11 +137,25 @@ const Profile = () => {
     closeModal();
   };
 
+  useEffect(() => {
+    const getBusiness = async () => {
+      try {
+        const res = await getBusinessById(params.id);
+        setImages({
+          logo: `${BASE_URI}${res.data.data.logo}`,
+          banner: `${BASE_URI}${res.data.data.banner}`,
+        });
+      } catch (err) {
+        console.error("Failed to fetch business", err);
+      }
+    };
+    getBusiness();
+  }, [params.id]);
+
   const fetchCategories = async () => {
     try {
       const response = await getCategories(qrDetails.business_id);
       setCategories(response.data.data);
-      console.log(response.data.data);
     } catch (error) {
       console.error("Failed to fetch categories", error);
     }
@@ -820,9 +836,12 @@ const Profile = () => {
                         width={0}
                         height={0}
                         sizes="100vw"
-                        src="https://raybittechnologies.com/wp-content/uploads/2024/03/logoraybit-new.png"
+                        src={
+                          images?.logo ||
+                          "https://raybittechnologies.com/wp-content/uploads/2024/03/logoraybit-new.png"
+                        }
                         alt="logo"
-                        className="w-auto h-20 mb-4"
+                        className="w-full h-24 object-contain mb-4"
                       />
                       <Button text="Edit & Replace" variant="secondary" />
                     </div>
@@ -832,9 +851,12 @@ const Profile = () => {
                         width={0}
                         height={0}
                         sizes="100vw"
-                        src="https://raybittechnologies.com/wp-content/uploads/2024/03/logoraybit-new.png"
+                        src={
+                          images?.banner ||
+                          "https://raybittechnologies.com/wp-content/uploads/2024/03/logoraybit-new.png"
+                        }
                         alt="logo"
-                        className="w-auto h-20 mb-4"
+                        className="w-full h-24 mb-4 object-contain"
                       />
                       <Button text="Edit & Replace" variant="secondary" />
                     </div>
