@@ -27,9 +27,11 @@ import {
   getCategories,
   getMyBusiness,
   getMyQr,
+  getPlans,
   getProducts,
   getPublished,
   getQrMenu,
+  goPro,
   updateCategory,
   updateItem,
 } from "../../utils/api";
@@ -42,6 +44,13 @@ import Button from "../../components/Button";
 import FileUploadButton from "../../components/fileUploadButton";
 import { redirect, useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
+import {
+  detectUserCurrency,
+  formatCurrency,
+  getUserCurrency,
+} from "@/app/utils/currency";
+import { CheckIcon } from "lucide-react";
+import axios from "axios";
 
 const tabs = [
   { id: "dashboard", label: "Dashboard", icon: FaDashcube },
@@ -126,16 +135,13 @@ const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("monthly");
   const [images, setImages] = useState(null);
+  const [plans, setPlans] = useState(null);
+  const [userCurrency, setUserCurrency] = useState("INR");
+  const [isProMember, setIsProMember] = useState(false);
 
   const router = useRouter();
 
-  const openModal = () => setIsOpen(true);
   const closeModal = () => setIsOpen(false);
-  const handlePlanChange = (plan) => setSelectedPlan(plan);
-  const proceedToPayment = () => {
-    console.log(`Proceeding with ${selectedPlan} plan`);
-    closeModal();
-  };
 
   useEffect(() => {
     const getBusiness = async () => {
@@ -160,6 +166,44 @@ const Profile = () => {
       console.error("Failed to fetch categories", error);
     }
   };
+
+  const fetchPlans = async () => {
+    try {
+      const response = await getPlans();
+      setPlans(response.data.data.plans);
+    } catch (error) {
+      console.error("Failed to fetch plans", error);
+    }
+  };
+  const openModal = () => {
+    fetchPlans();
+    setIsOpen(true);
+  };
+
+  useEffect(() => {
+    const fetchCurrency = async () => {
+      const currency = await detectUserCurrency();
+      setUserCurrency(currency);
+    };
+
+    fetchCurrency();
+  }, []);
+
+  const proceedToPayment = async () => {
+    try {
+      const response = await goPro(selectedPlan);
+      const params = new URLSearchParams({
+        orderId: response.data.paymentOrder.id,
+        amount: response.data.paymentOrder.amount,
+        purpose: response.data.paymentOrder.notes.purpose,
+      });
+      router.push(`/checkout?${params.toString()} `);
+    } catch (error) {
+      console.error("Payment initiation failed:", error);
+      alert(error.response?.data?.error || "Payment failed to initiate");
+    }
+  };
+
   const filteredCategories = categories.filter((cat) =>
     cat.name.toLowerCase().includes(searchQuery)
   );
@@ -348,60 +392,71 @@ const Profile = () => {
                   Enhance your menus with a review section. Let users also get
                   the review for better customer experience
                 </p>
-                <Button onClick={openModal} text="Upgrade at $2/month" />
+                {isProMember ? (
+                  <div className="px-4 py-2 bg-green-100 text-green-800 rounded-md inline-flex items-center">
+                    <CheckIcon className="w-4 h-4 mr-2" />
+                    Pro Member
+                  </div>
+                ) : (
+                  <Button onClick={openModal} text="Upgrade at $2/month" />
+                )}
               </div>
             </div>
             {/* Modal */}
             {isOpen && (
-              <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+              <div className="fixed h-screen inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                 <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
                   <h3 className="text-xl font-semibold mb-4">
                     Choose Your Plan
                   </h3>
 
                   <div className="space-y-4 mb-6">
-                    <div
-                      className={`border rounded-lg p-4 cursor-pointer ${
-                        selectedPlan === "monthly"
-                          ? "border-blue-500 bg-blue-50"
-                          : "border-gray-200"
-                      }`}
-                      onClick={() => handlePlanChange("monthly")}
-                    >
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h4 className="font-medium">Monthly Plan</h4>
-                          <p className="text-sm text-gray-600">
-                            Flexible subscription
-                          </p>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-bold">$2/month</p>
-                        </div>
-                      </div>
-                    </div>
+                    {plans?.map((plan) => {
+                      const price = parseFloat(plan.price);
+                      const monthlyPrice = price / plan.tenureMonths;
+                      const isSelected = selectedPlan === plan.id;
 
-                    <div
-                      className={`border rounded-lg p-4 cursor-pointer ${
-                        selectedPlan === "yearly"
-                          ? "border-blue-500 bg-blue-50"
-                          : "border-gray-200"
-                      }`}
-                      onClick={() => handlePlanChange("yearly")}
-                    >
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <h4 className="font-medium">Yearly Plan</h4>
-                          <p className="text-sm text-gray-600">
-                            Save 25% with annual billing
-                          </p>
+                      return (
+                        <div
+                          key={plan.id}
+                          onClick={() => setSelectedPlan(plan.id)}
+                          className={`border rounded-lg p-4 cursor-pointer transition-all ${
+                            isSelected
+                              ? "border-[#602ffd] bg-purple-50 ring-2 ring-purple-200"
+                              : "border-gray-200 hover:border-purple-300 hover:bg-purple-50"
+                          }`}
+                        >
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-medium">{plan.name}</h4>
+                                {isSelected && (
+                                  <span className="px-2 py-1 bg-[#602ffd] text-white text-xs rounded-full">
+                                    Selected
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-sm text-gray-600 mt-1">
+                                {plan.tenureMonths === 1
+                                  ? "Billed monthly"
+                                  : `Billed every ${plan.tenureMonths} months`}
+                              </p>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-bold">
+                                {formatCurrency(price, userCurrency)}
+                              </p>
+                              {plan.tenureMonths > 1 && (
+                                <p className="text-sm text-gray-500">
+                                  {formatCurrency(monthlyPrice, userCurrency)}
+                                  /month
+                                </p>
+                              )}
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-right">
-                          <p className="font-bold">$18/year</p>
-                          <p className="text-sm text-gray-500">($1.50/month)</p>
-                        </div>
-                      </div>
-                    </div>
+                      );
+                    })}
                   </div>
 
                   <div className="flex justify-between space-x-3">
