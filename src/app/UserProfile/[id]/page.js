@@ -191,13 +191,13 @@ const Profile = () => {
 
   const proceedToPayment = async () => {
     try {
-      const response = await goPro(selectedPlan);
-      const params = new URLSearchParams({
+      const response = await goPro(selectedPlan, params.id);
+      const urlParams = new URLSearchParams({
         orderId: response.data.paymentOrder.id,
         amount: response.data.paymentOrder.amount,
         purpose: response.data.paymentOrder.notes.purpose,
       });
-      router.push(`/checkout?${params.toString()} `);
+      router.push(`/checkout?${urlParams.toString()} `);
     } catch (error) {
       console.error("Payment initiation failed:", error);
       alert(error.response?.data?.error || "Payment failed to initiate");

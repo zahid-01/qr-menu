@@ -1,6 +1,6 @@
 const { default: axios } = require("axios");
 
-const BASE_URI = "http://192.168.100.11:5050/api/v1";
+const BASE_URI = "http://localhost:5050/api/v1";
 // const BASE_URI = "https://qrmenuserver.raybitprojects.com/api/v1";
 
 const api = axios.create({
@@ -167,11 +167,11 @@ export const getPlans = async () => {
   });
 };
 
-export const goPro = async (selectedPlan) => {
+export const goPro = async (selectedPlan,businessId) => {
   const token = localStorage.getItem("token");
   return await axios.post(
     `${BASE_URI}/businesses/goPro`,
-    { planId: selectedPlan },
+    { planId: selectedPlan,businessId },
     {
       headers: {
         Authorization: `Bearer ${token}`,
