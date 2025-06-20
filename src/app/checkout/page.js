@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-
+import { BASE_URI } from "../utils/constants";
 const Checkout = () => {
   const searchParams = useSearchParams();
 
@@ -36,7 +36,7 @@ const Checkout = () => {
         <input
           type="hidden"
           name="callback_url"
-          value="http://localhost:5050/api/v1/businesses/verifyProPayment"
+          value={`${BASE_URI}/api/v1/businesses/verifyProPayment`}
         />
         <input
           type="hidden"
