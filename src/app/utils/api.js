@@ -1,7 +1,9 @@
+import { BASE_URI as MAIN_URI } from "./constants";
+
 const { default: axios } = require("axios");
 
 // const BASE_URI = "http://192.168.100.11:5050/api/v1";
-const BASE_URI = "https://qrmenuserver.raybitprojects.com/api/v1";
+const BASE_URI = `${MAIN_URI}/api/v1`;
 
 const api = axios.create({
   baseURL: BASE_URI,
